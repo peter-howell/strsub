@@ -11,10 +11,10 @@ void usage() {
  *
  * @param char *x string to find the length of
  */
-int len(char* x) {
+int len(char *x) {
 	int l = 0;
-	while(1) {
-		if(*x == '\0') {
+	while (1) {
+		if (*x == '\0') {
 			return l;
 		}
 		l++;
@@ -31,7 +31,7 @@ int len(char* x) {
  * @param lx the length of x to look in
  * @param ly the length of y to look in
  */
-int streqBound(char*x, char*y, int lx, int ly) {	
+int streqBound(char *x, char *y, int lx, int ly) {	
 	if (lx != ly) {
 		return 0;
 	}
@@ -67,7 +67,6 @@ int *findMatches(char* pattern, char *x, int lP, int lX) {
 		if (streqBound(pattern, x+i, lP, lP)) {
 			matchesMatched++;
 			*(result + matchesMatched) = i;
-			printf("match at %d\n", i);
 		}
 	}
 	return result;
@@ -92,9 +91,9 @@ int main(int argc, char** argv) {
 		usage();
 		return 1;
 	}
-	char* pattern = *(argv + 1);
-	char* sub = *(argv + 2);
-	char* x = *(argv + 3);
+	char *pattern = *(argv + 1);
+	char *sub = *(argv + 2);
+	char *x = *(argv + 3);
 	int lP = len(pattern);
 	int lS = len(sub);
 	int lX = len(x);
