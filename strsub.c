@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 
 void usage() {
@@ -97,7 +96,7 @@ int main(int argc, char** argv) {
 	int lP = len(pattern);
 	int lS = len(sub);
 	int lX = len(x);
-	bool lenEq = lP == lS;
+	int lenEq = lP == lS;
 	
 	int *matches = findMatches(pattern, x, lP, lX);
 	int nMatches = *matches++;
