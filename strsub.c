@@ -122,6 +122,7 @@ int main(int argc, char** argv) {
 				}
 			}
 		}
+		printf("%s\n", x);
 	} else {
 		// calculate the length of the resulting string by getting the difference between the
 		// pattern and its replacement, multiplying it by the number of times it will appear,
