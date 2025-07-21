@@ -62,7 +62,7 @@ int *findMatches(char* pattern, char *x, int lP, int lX) {
 	int *result = (int *) malloc((nMatches + 1) * sizeof(int));
 	*result = nMatches;
 	int matchesMatched = 0;
-	for (int i = 0; i < lX - lP + 1; i++) {
+	for (int i = 0; i < lX - lP + 1 && matchesMatched < nMatches; i++) {
 		if (streqBound(pattern, x+i, lP, lP)) {
 			matchesMatched++;
 			*(result + matchesMatched) = i;
@@ -97,17 +97,37 @@ int main(int argc, char** argv) {
 	int lS = len(sub);
 	int lX = len(x);
 	int lenEq = lP == lS;
-	
-	int *matches = findMatches(pattern, x, lP, lX);
-	int nMatches = *matches++;
-	if (lenEq) {
-		for (int i = 0; i < nMatches; i++) {
-			for (int j = 0; j < lP; j++) {
-				*(x + *(matches + i) + j) = *(sub + j);
+	// can modify in place, and only need to do one pass
+	if (lenEq){
+		if (lP == 1) {
+			for (int i = 0; i < lX; i++) {
+				if (*(x + i) == *pattern) {
+					*(x + i) = *sub;
+				}
+			}
+		} else {
+			int j = 1;
+			for (int i = 0; i < lX - lP + 1; i++) {
+				if ((*x + i) == *pattern) {
+					int matching = 1;
+					while (matching && j < lP) {
+						matching = *(x + i + j) == *(pattern + j);
+						j++;
+					}
+					if (matching) {
+						for (int c = 0; c < lP; c++) {
+							*(x + i + c) = *(sub + c);
+						}
+					}
+				}
 			}
 		}
-		printf("%s\n", x);
 	} else {
+		// calculate the length of the resulting string by getting the difference between the
+		// pattern and its replacement, multiplying it by the number of times it will appear,
+		// and then adding that to the length of the original string
+		int *matches = findMatches(pattern, x, lP, lX);
+		int nMatches = *matches++;
 		int lR = nMatches * (lS - lP) + lX;
 		char *result = (char *) malloc( lR * sizeof(char));
 		int i = 0;
